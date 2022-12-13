@@ -21,15 +21,11 @@ class UsersRepository implements IUsersRepository {
   create({ name, email }: ICreateUserDTO): User {
     const user = new User();
 
-    const newUser = {
+    Object.assign(user, {
       name,
       email,
-      admin: true,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-
-    Object.assign(user, newUser);
+      admin: false,
+    });
 
     this.users.push(user);
 
@@ -38,7 +34,10 @@ class UsersRepository implements IUsersRepository {
 
   findById(id: string): User | undefined {
     const user = this.users.find((user) => user.id === id);
-    console.log(user);
+
+    if (!user) {
+      throw new Error("User not exists");
+    }
     return user;
   }
 
@@ -49,9 +48,13 @@ class UsersRepository implements IUsersRepository {
   }
 
   turnAdmin(receivedUser: User): User {
+    const Allusers = this.users.filter((user) => user.id !== receivedUser.id);
+
     Object.assign(receivedUser, {
       admin: true,
     });
+
+    this.users = [...Allusers, receivedUser];
 
     return receivedUser;
   }
