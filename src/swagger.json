@@ -1,0 +1,216 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "RentalX Documentation",
+    "description": "This is an API Rent",
+    "version": "1.0.0",
+    "contact": {
+      "name": "John",
+      "email": "gabrielmxn22@gmail.com"
+    }
+  },
+  "paths":  {
+    "/users": {
+      "post":{
+        "tags": ["user"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "johndoe@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Information of user"
+          },
+          "400": {
+            "description": "Email already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": ["user"],
+        "summary": "List a user",
+        "description": "Listen all users",
+        "parameters": [{
+          "in": "header",
+          "name": "user_id",
+          "schema": {
+            "format": "uuid"
+          },
+          "required": true
+         
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "format": "name"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "updated_at": {
+                        "format": "date-time"
+                      },
+                      "created_at": {
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User is not an administrator or User not found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Show user profile",
+        "description": "Show information about user",
+        "parameters": [{
+          "in": "path",
+          "name": "user_id",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }],
+        "responses": {
+          "201": {
+            "description": "Success!",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "format": "name"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "updated_at": {
+                        "format": "date-time"
+                      },
+                      "created_at": {
+                        "format": "date-time"
+                      }
+                    }
+                  
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["user"],
+        "summary": "Turn user admin",
+        "description": "Turn user admin",
+        "parameters": [{
+          "in": "path",
+          "name": "user_id",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "You is administrator",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "format": "name"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "updated_at": {
+                        "format": "date-time"
+                      },
+                      "created_at": {
+                        "format": "date-time"
+                      }
+                    }
+                  
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  }
+}
